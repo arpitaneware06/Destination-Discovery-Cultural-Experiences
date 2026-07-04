@@ -1,23 +1,48 @@
-export default function Page() {
+import { HomeHero } from '@/components/home-hero'
+import { DiscoverExplorer } from '@/components/discover-explorer'
+import { HiddenGems } from '@/components/hidden-gems'
+import { EventsRail } from '@/components/events-rail'
+import { SectionHeading } from '@/components/section-heading'
+
+export default function HomePage() {
   return (
-    <main className="relative flex min-h-screen items-center justify-center bg-[color:light-dark(#fff,#000)] text-[color:light-dark(#000,#fff)]">
-      <svg
-        aria-hidden="true"
-        className="size-20"
-        fill="none"
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-        stroke="currentColor"
-        strokeWidth="0.5"
-      >
-        <path
-          d="M14.2 14.2H17V6.9375C17 4.76288 15.2371 3 13.0625 3H5.8V5.8M14.2 14.2V7.79063L7.79062 14.2H14.2ZM14.2 14.2V17H6.9375C4.76288 17 3 15.2371 3 13.0625V5.8H5.8M5.8 5.8V12.2313L12.2313 5.8H5.8Z"
-          strokeLinejoin="round"
+    <div>
+      <HomeHero />
+
+      <section className="mx-auto max-w-6xl px-4 py-16">
+        <SectionHeading
+          eyebrow="Explore"
+          title="Destinations worth understanding"
+          description="A curated starting point of culturally rich places. Filter by what moves you, then dive in for AI-generated stories and local experiences."
         />
-      </svg>
-      <p className="absolute left-1/2 top-[calc(50%+56px)] -translate-x-1/2 whitespace-nowrap text-sm font-medium text-muted-foreground">
-        Your v0 generation will show here.
-      </p>
-    </main>
+        <div className="mt-8">
+          <DiscoverExplorer />
+        </div>
+      </section>
+
+      <section className="border-y border-border/70 bg-secondary/30">
+        <div className="mx-auto max-w-6xl px-4 py-16">
+          <SectionHeading
+            eyebrow="Hidden gems"
+            title="Beyond the guidebook"
+            description="The quiet villages, backstreet workshops, and family cellars our AI surfaces so you can travel deeper."
+          />
+          <div className="mt-8">
+            <HiddenGems />
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-16">
+        <SectionHeading
+          eyebrow="Local calendar"
+          title="Time your visit to the culture"
+          description="Festivals, harvests, and ceremonies that turn a good trip into a once-in-a-lifetime one."
+        />
+        <div className="mt-8">
+          <EventsRail />
+        </div>
+      </section>
+    </div>
   )
 }

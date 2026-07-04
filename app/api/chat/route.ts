@@ -5,7 +5,6 @@ import {
   toUIMessageStream,
   type UIMessage,
 } from 'ai'
-
 import { destinations } from '@/lib/destinations'
 import { CHAT_MODEL } from '@/lib/ai'
 
@@ -18,8 +17,7 @@ const catalog = destinations
   )
   .join('\n')
 
-const SYSTEM = `
-You are the Wayfare Culture Companion, a warm and knowledgeable guide for travelers who want to engage authentically with local culture, heritage, and communities.
+const SYSTEM = `You are the Wayfare Culture Companion, a warm and knowledgeable guide for travelers who want to engage authentically with local culture, heritage, and communities.
 
 Your purpose:
 - Recommend attractions, hidden gems, and heritage sites.
@@ -30,41 +28,23 @@ Your purpose:
 Guidelines:
 - Be specific, sensory, and practical. Prefer authentic, community-based experiences over generic tourism.
 - Encourage respectful, sustainable travel that benefits locals.
-- Keep responses focused and skimmable; use short paragraphs and bullet points when helpful.
+- Keep responses focused and skimmable; use short paragraphs and, when helpful, tight bullet lists.
 - When a place in our collection is relevant, mention it by name so the traveler can explore its page.
-- If asked about somewhere outside our collection, still help using general knowledge and suggest verifying locally.
+- If asked about somewhere outside our collection, still help using your general knowledge, and gently note details should be verified locally.
 
 Our featured collection:
-${catalog}
-`
+${catalog}`
 
 export async function POST(req: Request) {
-  try {
-    const { messages }: { messages: UIMessage[] } = await req.json()
+  const { messages }: { messages: UIMessage[] } = await req.json()
 
-    if (!messages) {
-      return new Response("Missing messages", { status: 400 })
-    }
+  const result = streamText({
+    model: CHAT_MODEL,
+    system: SYSTEM,
+    messages: await convertToModelMessages(messages),
+  })
 
-    const result = streamText({
-      model: CHAT_MODEL,
-      system: SYSTEM,
-      messages: await convertToModelMessages(messages),
-    })
-
-    return createUIMessageStreamResponse({
-      stream: toUIMessageStream({ stream: result.stream }),
-    })
-  } catch (error: any) {
-    return new Response(
-      JSON.stringify({
-        error: "AI request failed",
-        details: error?.message,
-      }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
-    )
-  }
+  return createUIMessageStreamResponse({
+    stream: toUIMessageStream({ stream: result.stream }),
+  })
 }

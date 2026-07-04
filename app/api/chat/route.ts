@@ -1,4 +1,4 @@
-import {
+ {
   convertToModelMessages,
   createUIMessageStreamResponse,
   streamText,
@@ -6,7 +6,7 @@ import {
   type UIMessage,
 } from 'ai'
 import { destinations } from '@/lib/destinations'
-import { CHAT_MODEL } from '@/lib/ai'
+impoimportrt { CHAT_MODEL } from '@/lib/ai'
 
 export const maxDuration = 30
 

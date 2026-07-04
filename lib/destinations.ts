@@ -11,6 +11,7 @@ export type HiddenGem = {
 
 export type Destination = {
   slug: string
+
   name: string
   country: string
   region: string
